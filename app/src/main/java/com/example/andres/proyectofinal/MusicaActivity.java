@@ -20,7 +20,7 @@ import android.support.v7.widget.Toolbar;
 public class MusicaActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button botonPlay,botonStop,botonMute,botonReplay;
-    private ServiceMediaplayer sMediaPlayer;
+    private ServiceMediaplayer sMediaPlayer = new ServiceMediaplayer();
     private boolean bound;
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -32,7 +32,6 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
 
             sMediaPlayer = binder.getService();
             bound = true;
-            sMediaPlayer.playRaw();
         }
 
         @Override
@@ -72,6 +71,7 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonPlay:
+                sMediaPlayer.playRaw();
                 if (!sMediaPlayer.playSong()){
                     botonPlay.setBackground(getDrawable(R.drawable.play));
                 } else{

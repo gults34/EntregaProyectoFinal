@@ -15,9 +15,13 @@ public class ServiceMediaplayer extends Service {
     private final IBinder mBinder = new MediaPlayerBinder();
     private MediaPlayer mediaPlayer;
     private boolean muted = false;
-    private MusicaActivity musicaMediapPlay;
 
     public boolean playSong() {
+        /*try {
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         if (mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             return false;
@@ -79,6 +83,10 @@ public class ServiceMediaplayer extends Service {
         }
     }
 
+    public void playRaw() {
+        mediaPlayer.prepare();
+        mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
+    }
 
     public ServiceMediaplayer() {
     }
@@ -92,9 +100,5 @@ public class ServiceMediaplayer extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
-    }
-
-    public void playRaw() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
     }
 }
