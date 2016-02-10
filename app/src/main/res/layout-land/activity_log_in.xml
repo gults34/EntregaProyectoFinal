@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LogInActivity"
+    android:id="@+id/layout">
+
+    <LinearLayout
+        tools:context=".LogInActivity"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:gravity="top">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:id="@+id/editTextu"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/editText6"
+                android:layout_toStartOf="@+id/editText6"
+                android:hint="Nombre de Usuario"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/editTextc"
+                android:hint="Contraseña"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        tools:context=".LogInActivity"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="3"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:text="listausers"
+            android:id="@+id/buttonlista"
+            android:onClick="showUserList"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:text="Registrarse"
+            android:id="@+id/buttonsign"
+            android:layout_weight="1"
+            android:onClick="pantallaSignIn" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:text="Entrar"
+            android:id="@+id/buttonlog"
+            android:layout_weight="1"
+            android:onClick="compruebaLogIn" />
+    </LinearLayout>
+
+</LinearLayout>

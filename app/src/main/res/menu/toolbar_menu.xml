@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.andres.entrarapp.PrincipalActivity">
+
+    <item android:id="@+id/notificacion"
+        android:icon="@drawable/notificacion"
+        app:showAsAction="ifRoom"
+        android:title="Notificaciones">
+        <menu>
+            <item android:id="@+id/toast"
+                android:title="Toast" />
+            <item android:id="@+id/estado"
+                android:title="Estado" />
+        </menu>
+    </item>
+
+
+    <item android:id="@+id/llamar"
+        android:icon="@drawable/llamar"
+        app:showAsAction="ifRoom"
+        android:title="Llamar" />
+
+    <item android:id="@+id/navegador"
+        android:icon="@drawable/navegador"
+        app:showAsAction="ifRoom"
+        android:title="Navegador" />
+</menu>

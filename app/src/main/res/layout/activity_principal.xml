@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.andres.proyectofinal.PrincipalActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Calculadora"
+        android:id="@+id/buttonCalculadora"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:onClick="pantallaCalculadora" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Memory"
+        android:id="@+id/buttonMemory"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:onClick="pantallaMemory" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Reproductor"
+        android:id="@+id/button4"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:onClick="pantallaMusica" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Perfil"
+        android:id="@+id/buttonPerfil"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:onClick="pantallaPerfil" />
+</LinearLayout>
