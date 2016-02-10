@@ -15,13 +15,13 @@ public class ServiceMediaplayer extends Service {
     private final IBinder mBinder = new MediaPlayerBinder();
     private MediaPlayer mediaPlayer;
     private boolean muted = false;
+    private boolean primera = true;
 
     public boolean playSong() {
-        /*try {
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        if (primera) {
+            primera = false;
+            mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
+        }
         if (mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             return false;
@@ -65,11 +65,9 @@ public class ServiceMediaplayer extends Service {
 
     public void Stop() {
         mediaPlayer.stop();
-        try {
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mediaPlayer.release();
+        mediaPlayer = null;
+        mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
         /*boolean playing = mediaPlayer.isPlaying();
         mediaPlayer.stop();
         mediaPlayer.reset();
@@ -83,18 +81,12 @@ public class ServiceMediaplayer extends Service {
         }
     }
 
-    public void playRaw() {
-        mediaPlayer.prepare();
-        mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
-    }
-
     public ServiceMediaplayer() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mediaPlayer = new MediaPlayer();
     }
     @Nullable
     @Override
