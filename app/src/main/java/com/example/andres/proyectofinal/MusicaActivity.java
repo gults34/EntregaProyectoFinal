@@ -67,13 +67,12 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
         botonStop.setBackground(getDrawable(R.drawable.stop));
         botonMute.setBackground(getDrawable(R.drawable.mute));
     }
-    
+
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonPlay:
-                boolean play = sMediaPlayer.play();
-                if (!play){
+                if (!sMediaPlayer.playSong()){
                     botonPlay.setBackground(getDrawable(R.drawable.play));
                 } else{
                     botonPlay.setBackground(getDrawable(R.drawable.pause));

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
+
 import java.io.IOException;
 
 public class ServiceMediaplayer extends Service {
@@ -13,8 +15,9 @@ public class ServiceMediaplayer extends Service {
     private final IBinder mBinder = new MediaPlayerBinder();
     private MediaPlayer mediaPlayer;
     private boolean muted = false;
+    private MusicaActivity musicaMediapPlay;
 
-    public boolean play() {
+    public boolean playSong() {
         if (mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             return false;
@@ -83,7 +86,9 @@ public class ServiceMediaplayer extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaPlayer = new MediaPlayer();
     }
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;

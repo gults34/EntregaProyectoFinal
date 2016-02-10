@@ -1,3 +1,4 @@
+/*
 package com.example.shine.proyectofinal;
 
 //import android.app.Service;
@@ -207,4 +208,4 @@ public class MediaPlay extends AppCompatActivity implements View.OnClickListener
                 return super.onOptionsItemSelected(item);
         }
     }
-}
+}*/
