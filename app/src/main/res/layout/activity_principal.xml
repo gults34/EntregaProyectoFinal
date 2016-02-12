@@ -6,6 +6,12 @@
     tools:context="com.example.andres.proyectofinal.PrincipalActivity"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"

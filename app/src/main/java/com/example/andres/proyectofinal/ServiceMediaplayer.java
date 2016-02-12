@@ -20,7 +20,7 @@ public class ServiceMediaplayer extends Service {
     public boolean playSong() {
         if (primera) {
             primera = false;
-            mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.musica1);
         }
         if (mediaPlayer.isPlaying()){
             mediaPlayer.pause();
@@ -35,23 +35,22 @@ public class ServiceMediaplayer extends Service {
     public boolean setVol() {
         if (muted){
             mediaPlayer.setVolume(1,1);
+            muted = false;
             return true;
         }
         else{
             mediaPlayer.setVolume(0, 0);
+            muted = true;
             return false;
         }
     }
 
     public void replaySong() {
         mediaPlayer.stop();
-        try {
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mediaPlayer.release();
+        mediaPlayer = null;
+        mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
         mediaPlayer.start();
-
 
 
 
@@ -68,11 +67,20 @@ public class ServiceMediaplayer extends Service {
         mediaPlayer.release();
         mediaPlayer = null;
         mediaPlayer = MediaPlayer.create(this, R.raw.musica1);
+        primera = true;
         /*boolean playing = mediaPlayer.isPlaying();
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer = null;
         mediaPlayer = MediaPlayer.create(this, R.raw.musica1);*/
+    }
+
+    public void salir() {
+        if (!primera) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     public class MediaPlayerBinder extends Binder {

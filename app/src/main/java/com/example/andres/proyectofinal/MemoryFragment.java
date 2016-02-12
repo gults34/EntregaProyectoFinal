@@ -1,8 +1,12 @@
 package com.example.andres.proyectofinal;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,6 +49,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
     private Integer fallos = 0;
     private Boolean valiente = false;
     private OnFragmentInteractionListener mListener;
+    private UserHelper userHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -332,7 +337,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
             if (valiente) {
                 while (valiente) ;
                 try {
-                    Thread.sleep(800);
+                    Thread.sleep(700);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -358,14 +363,20 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getContext(), "Nueva Partida", Toast.LENGTH_LONG).show();
-                            generarTablero();
+                            if (mListener != null) {
+                                Log.v("estoy aqui","aqui3");
+                                mListener.onFragmentInteraction("new", 2);
+                            }
                         }
                     });
                     builder.setNegativeButton("Volver al menú", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getContext(), "Volver al menú", Toast.LENGTH_LONG).show();
-                            if (mListener != null) mListener.onFragmentInteraction("end", 1);
+                            if (mListener != null) {
+                                Log.v("estoy aqui","aqui3");
+                                mListener.onFragmentInteraction("end", 1);
+                            }
                         }
                     });
                     AlertDialog dialog = builder.create();
@@ -373,6 +384,15 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                     for (int k = 0; k < 16; ++k) {
                         cartas.get(k).first.setEnabled(true);
                     }
+                    ContentValues valuesToStore = new ContentValues();
+                    valuesToStore.put("punt", Integer.valueOf(fallos));
+
+                    SharedPreferences settings = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+                    boolean silent = settings.getBoolean("myBoolean", false);
+
+                    userHelper = new UserHelper(getContext());
+                    userHelper.setPoints(settings.getString("usuario", "default"),valuesToStore);
+                    userHelper.close();
                 }
             }
             else {
@@ -404,6 +424,9 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
             case R.id.replay:
                 generarTablero();
                 return true;
+            case R.id.logout:
+                mListener.onFragmentInteraction("logout", 3);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -412,11 +435,18 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mListener = null;
     }
 
 }

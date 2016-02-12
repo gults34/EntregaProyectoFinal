@@ -61,7 +61,7 @@ public void addUser(View view) {
         ContentValues valuesToStore = new ContentValues();
         valuesToStore.put("username", String.valueOf(username.getText()));
         valuesToStore.put("pass", String.valueOf(password.getText()));
-        valuesToStore.put("foto", "");
+        valuesToStore.put("foto", "-1");
         valuesToStore.put("punt", "0");
         userHelper.createUser(valuesToStore, "User");
 

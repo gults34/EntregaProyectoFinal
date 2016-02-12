@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.support.v7.widget.Toolbar;
@@ -82,8 +83,7 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
                 botonPlay.setBackground(getDrawable(R.drawable.play));
                 break;
             case R.id.buttonMute:
-                boolean mute = sMediaPlayer.setVol();
-                if (!mute){
+                if (sMediaPlayer.setVol()){
                     botonMute.setBackground(getDrawable(R.drawable.mute));
                 }
                 else{
@@ -102,6 +102,19 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(inten);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -113,6 +126,7 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStop() {
         super.onStop();
+        sMediaPlayer.salir();
         if (bound) {
             unbindService(mConnection);
             bound = false;

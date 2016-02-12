@@ -6,4 +6,8 @@
         android:icon="@drawable/replay"
         app:showAsAction="ifRoom"
         android:title="Replay" />
+    <item android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        app:showAsAction="ifRoom"
+        android:title="Cerrar Sesión" />
 </menu>

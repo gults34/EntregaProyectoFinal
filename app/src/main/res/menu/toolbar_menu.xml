@@ -27,4 +27,8 @@
         android:icon="@drawable/navegador"
         app:showAsAction="ifRoom"
         android:title="Navegador" />
+    <item android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        app:showAsAction="ifRoom"
+        android:title="Cerrar Sesión" />
 </menu>

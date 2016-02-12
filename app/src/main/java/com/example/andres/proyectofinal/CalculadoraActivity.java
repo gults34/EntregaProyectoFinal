@@ -30,6 +30,7 @@ public class CalculadoraActivity extends AppCompatActivity implements View.OnCli
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Calculadora");
 
         layout = findViewById(R.id.layout);
 
@@ -188,6 +189,10 @@ public class CalculadoraActivity extends AppCompatActivity implements View.OnCli
                 startActivity(i);
                 return true;
             case R.id.notificacion:
+                return true;
+            case R.id.logout:
+                Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(inten);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
