@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.andres.proyectofinal.PrincipalActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/layout">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"

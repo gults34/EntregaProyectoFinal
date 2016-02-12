@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Environment;
@@ -23,6 +24,7 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
     private Button botonPlay,botonStop,botonMute,botonReplay;
     private ServiceMediaplayer sMediaPlayer = new ServiceMediaplayer();
     private boolean bound;
+    private View layout;
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -52,6 +54,8 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         setTitle("Media Player");
 
+
+        layout = (View) findViewById(R.id.layout);
         botonReplay = (Button) findViewById(R.id.buttonReplay);
         botonMute = (Button) findViewById(R.id.buttonMute);
         botonPlay = (Button) findViewById(R.id.buttonPlay);
@@ -66,6 +70,7 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
         botonPlay.setBackground(getDrawable(R.drawable.play));
         botonStop.setBackground(getDrawable(R.drawable.stop));
         botonMute.setBackground(getDrawable(R.drawable.mute));
+        layout.setBackgroundResource((R.drawable.fondomedia));
     }
 
 
@@ -105,7 +110,11 @@ public class MusicaActivity extends AppCompatActivity implements View.OnClickLis
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.logout:
+            case R.id.logout:SharedPreferences settings = getSharedPreferences("prefs", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("puntuacion", -1);
+                editor.putString("usuario", "");
+                editor.apply();
                 Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(inten);
                 finish();

@@ -1,17 +1,26 @@
 package com.example.andres.proyectofinal;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CalculadoraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,6 +31,7 @@ public class CalculadoraActivity extends AppCompatActivity implements View.OnCli
     private CoordinatorLayout coordinatorLayout;
     private View layout;
     private Boolean lastigual = false;
+    private UserHelper userHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +157,41 @@ public class CalculadoraActivity extends AppCompatActivity implements View.OnCli
                         break;
                     case 4:
                         if (num2 == 0) {
-                            Snackbar snackbar = Snackbar.make(layout,"Estas haciendo una división entre 0",Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                            userHelper = new UserHelper(getApplicationContext());
+                            SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+                            boolean silent = settings.getBoolean("myBoolean", false);
+                            String us = settings.getString("usuario", "default");
+                            Cursor c = userHelper.getNotByUsername(us);
+                            if (c.moveToFirst() && c.getInt(0) == 0) {
+                                Toast.makeText(getApplicationContext(), "Estas haciendo una división entre 0", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (c.moveToFirst() && c.getInt(0) == 1) {
+                                int mId = 1;
+                                NotificationManager mNotificationManager =
+                                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                NotificationCompat.Builder mBuilder =
+                                        new NotificationCompat.Builder(getApplicationContext())
+                                                .setSmallIcon(R.drawable.notificacion)
+                                                .setContentTitle("Información")
+                                                .setContentText("Estas haciendo una division entre 0");
+                                Intent resultIntent = new Intent();
+                                android.support.v4.app.TaskStackBuilder stackBuilder = android.support.v4.app.TaskStackBuilder.create(getApplicationContext());
+                                stackBuilder.addParentStack(CalculadoraActivity.class);
+                                stackBuilder.addNextIntent(resultIntent);
+                                PendingIntent resultPendingIntent =
+                                        stackBuilder.getPendingIntent(
+                                                0,
+                                                PendingIntent.FLAG_UPDATE_CURRENT
+                                        );
+                                mBuilder.setContentIntent(resultPendingIntent);
+                                mNotificationManager.notify(mId, mBuilder.build());
+                                break;
+                            }
+                            else {
+                                Snackbar snackbar = Snackbar.make(layout,"Estas haciendo una división entre 0",Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            }
+
                         }
                         num2 = 1.0;
                         res = num1 / num2;
@@ -190,9 +233,48 @@ public class CalculadoraActivity extends AppCompatActivity implements View.OnCli
                 return true;
             case R.id.notificacion:
                 return true;
+            case R.id.estado:
+                SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+                boolean silent = settings.getBoolean("myBoolean", false);
+                userHelper = new UserHelper(getApplicationContext());
+                String us = settings.getString("usuario", "default");
+                ContentValues valuesToStore = new ContentValues();
+                valuesToStore.put("noti", 1);
+                Log.v("estado", valuesToStore+"");
+                userHelper.setNotificationMode(us, valuesToStore);
+                userHelper.close();
+                return true;
+            case R.id.toast:
+                SharedPreferences set = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+                boolean silen = set.getBoolean("myBoolean", false);
+                userHelper = new UserHelper(getApplicationContext());
+                String u = set.getString("usuario", "default");
+                ContentValues values = new ContentValues();
+                values.put("noti", 0);
+                Log.v("toast", values + "");
+                userHelper.setNotificationMode(u, values);
+                userHelper.close();
+                return true;
+            case R.id.snackbar:
+                SharedPreferences s = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+                boolean si = s.getBoolean("myBoolean", false);
+                userHelper = new UserHelper(getApplicationContext());
+                String usu = s.getString("usuario", "default");
+                ContentValues v = new ContentValues();
+                v.put("noti", 2);
+                Log.v("snackbar", v + "");
+                userHelper.setNotificationMode(usu, v);
+                userHelper.close();
+                return true;
             case R.id.logout:
+                SharedPreferences setting = getSharedPreferences("prefs", 0);
+                SharedPreferences.Editor editor = setting.edit();
+                editor.putInt("puntuacion", -1);
+                editor.putString("usuario", "");
+                editor.apply();
                 Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(inten);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

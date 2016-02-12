@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -25,19 +27,21 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView imageView;
     private TextView user,email,punt;
     private UserHelper userHelper;
-    private Button botonCambiar,botonGPS;
+    private Button botonCambiar,botonGPS,botonLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Perfil");
 
-        botonCambiar = (Button)findViewById(R.id.buttonCambiar);
-        botonGPS = (Button)findViewById(R.id.buttonGPS);
+        botonLogOut = (Button) findViewById(R.id.buttonLogOut);
+        botonCambiar = (Button) findViewById(R.id.buttonCambiar);
+        botonGPS = (Button) findViewById(R.id.buttonGPS);
         imageView = (ImageView) findViewById(R.id.imageViewIcon);
         user = (TextView) findViewById(R.id.textViewUsuario);
         punt = (TextView) findViewById(R.id.textViewPunt);
@@ -45,6 +49,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         imageView.setOnClickListener(this);
         botonCambiar.setOnClickListener(this);
         botonGPS.setOnClickListener(this);
+        botonLogOut.setOnClickListener(this);
 
         SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         boolean silent = settings.getBoolean("myBoolean", false);
@@ -58,7 +63,8 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         Cursor c = userHelper.getUser(usuario);
 
         if (c.moveToFirst()) {
-            punt.setText(c.getInt(2)+"");
+            if (c.getInt(2) == 0) punt.setText("N/A");
+            else punt.setText(c.getInt(2)+"");
         }
 
         Cursor m = userHelper.getFotoByUsername(usuario);
@@ -72,7 +78,6 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                 imageView.setImageResource(R.drawable.icon0);
             }
         }
-
     }
 
     public void onClick(View v) {
@@ -89,6 +94,16 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.buttonGPS:
                 Intent i = new Intent(getApplicationContext(), LocalizacionActivity.class);
                 startActivity(i);
+                break;
+            case R.id.buttonLogOut:
+                SharedPreferences settings = getSharedPreferences("prefs", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("puntuacion", -1);
+                editor.putString("usuario", "");
+                editor.apply();
+                Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(inten);
+                finish();
                 break;
         }
     }
@@ -111,7 +126,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                 boolean silent = settings.getBoolean("myBoolean", false);
 
                 String us = settings.getString("usuario", "default");
-
+                userHelper = new UserHelper(getApplicationContext());
                 userHelper.addFoto(us,valuesToStore);
                 userHelper.close();
                 try {
@@ -123,23 +138,6 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
             }
         }else{
             Log.v("Result","Something happened");
-        }
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(inten);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

@@ -14,6 +14,8 @@
                 android:title="Toast" />
             <item android:id="@+id/estado"
                 android:title="Estado" />
+            <item android:id="@+id/snackbar"
+                android:title="Snackbar" />
         </menu>
     </item>
 

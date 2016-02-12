@@ -32,6 +32,8 @@ protected void onCreate(Bundle savedInstanceState) {
     cpassword = (EditText)findViewById(R.id.editTextcc);
     userHelper = new UserHelper(getApplicationContext());
     layout = findViewById(R.id.layout);
+
+    layout.setBackgroundResource((R.drawable.fondoazul));
 }
 
 public void addUser(View view) {
@@ -62,7 +64,8 @@ public void addUser(View view) {
         valuesToStore.put("username", String.valueOf(username.getText()));
         valuesToStore.put("pass", String.valueOf(password.getText()));
         valuesToStore.put("foto", "-1");
-        valuesToStore.put("punt", "0");
+        valuesToStore.put("punt", -1);
+        valuesToStore.put("noti", -1);
         userHelper.createUser(valuesToStore, "User");
 
         Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();

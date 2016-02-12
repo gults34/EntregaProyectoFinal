@@ -55,11 +55,24 @@ public class RankingFragment extends Fragment {
         ArrayList<UserRecyclerView> ranking = new ArrayList<>();
         userHelper = new UserHelper(getContext());
         Cursor c = userHelper.getUserPunt();
-        if (c.moveToFirst()) {
+        /*if (c.moveToFirst()) {
             do {
-                ranking.add(new UserRecyclerView(0, c.getString((c.getColumnIndex("username"))), c.getInt(c.getColumnIndex("punt"))));
+                ranking.add(new UserRecyclerView(c.getString((c.getColumnIndex("foto"))), c.getString((c.getColumnIndex("username"))), c.getInt(c.getColumnIndex("punt"))));
             }while (c.moveToNext());
+        }*/
+
+        c.moveToFirst();
+        int i = 0;
+        while (!c.isAfterLast()) {
+            if (c.getInt(c.getColumnIndex("punt")) == -1) ranking.add(new UserRecyclerView(c.getString((c.getColumnIndex("foto"))), c.getString((c.getColumnIndex("username"))), c.getInt(c.getColumnIndex("punt"))));
+            else {
+                ranking.add(i, new UserRecyclerView(c.getString((c.getColumnIndex("foto"))), c.getString((c.getColumnIndex("username"))), c.getInt(c.getColumnIndex("punt"))));
+                ++i;
+            }
+            c.moveToNext();
         }
+
+
         return ranking;
     }
 

@@ -15,8 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="2"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
         android:gravity="bottom">
 
         <android.support.design.widget.TextInputLayout
@@ -53,41 +51,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp">
+        android:layout_weight="1">
+
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:text="RECYCLER"
-            android:id="@+id/button"
-            android:onClick="abrirRecycler"
-            android:layout_weight="1" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:text="listausers"
             android:id="@+id/buttonlista"
             android:onClick="showUserList"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="12dp" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:text="Registrarse"
             android:id="@+id/buttonsign"
             android:layout_weight="1"
-            android:onClick="pantallaSignIn" />
+            android:onClick="pantallaSignIn"
+            android:textSize="12dp" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:text="Entrar"
             android:id="@+id/buttonlog"
             android:layout_weight="1"
-            android:onClick="compruebaLogIn" />
+            android:onClick="compruebaLogIn"
+            android:textSize="12dp" />
+
     </LinearLayout>
 
 </LinearLayout>

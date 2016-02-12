@@ -1,6 +1,7 @@
 package com.example.andres.proyectofinal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -55,6 +56,11 @@ public class MemoryRankingActivity extends AppCompatActivity implements OnFragme
         }
         if (from == 3 && text.equals("logout")) {
             Log.v("estoy aqui","aqui2");
+            SharedPreferences settings = getSharedPreferences("prefs", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("puntuacion", -1);
+            editor.putString("usuario", "");
+            editor.apply();
             Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
             startActivity(intent);
             finish();

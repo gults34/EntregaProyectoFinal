@@ -27,7 +27,7 @@ public class UserListActivity extends ListActivity {
         Cursor c = userHelper.getAllUsers();
         if (c.moveToFirst()) {
             do {
-                adapter.add("Username: " + c.getString(c.getColumnIndex("username")) + "/Pass:" + c.getString(c.getColumnIndex("pass")) + "/Punt:" + c.getInt(c.getColumnIndex("punt")) + "Foto:" + c.getString(c.getColumnIndex("foto")));
+                adapter.add("Username: " + c.getString(c.getColumnIndex("username")) + "/Pass:" + c.getString(c.getColumnIndex("pass")) + "/Punt:" + c.getInt(c.getColumnIndex("punt")) + "/Foto:" + c.getString(c.getColumnIndex("foto")));
             } while (c.moveToNext());
         }
     }

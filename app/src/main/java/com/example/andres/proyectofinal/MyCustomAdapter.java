@@ -1,5 +1,9 @@
 package com.example.andres.proyectofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +15,10 @@ import java.util.ArrayList;
 
 
 
-public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.AdapterViewHolder>{
+public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.AdapterViewHolder> {
 
     ArrayList<UserRecyclerView> ranking;
-
+    private UserHelper userHelper;
     MyCustomAdapter(ArrayList<UserRecyclerView> lista){
         ranking = lista;
     }
@@ -29,10 +33,16 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.Adapte
 
     @Override
     public void onBindViewHolder(MyCustomAdapter.AdapterViewHolder adapterViewholder, int position) {
-        int iconLayout = ranking.get(position).getIcon();
-        if (iconLayout == 0) adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.drawable.icon0));
+        if (ranking.get(position).getIcon().equals("-1")) {
+            adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.drawable.icon0));
+        }
+        else adapterViewholder.icon.setImageURI(Uri.parse(ranking.get(position).getIcon()));
+        if (ranking.get(position).getPunt().toString().equals("-1")) {
+            adapterViewholder.punt.setText("N/A");
+        }
+        else adapterViewholder.punt.setText(ranking.get(position).getPunt().toString());
         adapterViewholder.name.setText(ranking.get(position).getName());
-        adapterViewholder.punt.setText(ranking.get(position).getPunt().toString());
+
     }
 
     @Override

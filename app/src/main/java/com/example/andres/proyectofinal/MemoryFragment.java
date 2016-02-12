@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -354,6 +356,8 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                 cartas.get(carta1.first).first.setEnabled(false);
                 cartas.get(carta2.first).first.setEnabled(false);
                 acabado += 2;
+                ++fallos;
+                fallosPant.setText("" + fallos);
                 if (acabado == 16) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Enhorabuena");
@@ -364,7 +368,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getContext(), "Nueva Partida", Toast.LENGTH_LONG).show();
                             if (mListener != null) {
-                                Log.v("estoy aqui","aqui3");
+                                Log.v("estoy aqui", "aqui3");
                                 mListener.onFragmentInteraction("new", 2);
                             }
                         }
@@ -374,7 +378,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getContext(), "Volver al menú", Toast.LENGTH_LONG).show();
                             if (mListener != null) {
-                                Log.v("estoy aqui","aqui3");
+                                Log.v("estoy aqui", "aqui3");
                                 mListener.onFragmentInteraction("end", 1);
                             }
                         }
@@ -384,23 +388,24 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                     for (int k = 0; k < 16; ++k) {
                         cartas.get(k).first.setEnabled(true);
                     }
-                    ContentValues valuesToStore = new ContentValues();
-                    valuesToStore.put("punt", Integer.valueOf(fallos));
 
                     SharedPreferences settings = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
                     boolean silent = settings.getBoolean("myBoolean", false);
-
                     userHelper = new UserHelper(getContext());
-                    userHelper.setPoints(settings.getString("usuario", "default"),valuesToStore);
-                    userHelper.close();
+                    Cursor k = userHelper.getUser(settings.getString("usuario", "default"));
+
+                    if ((k.moveToFirst() && k.getInt(k.getColumnIndex("punt")) > fallos)  || (k.moveToFirst() && k.getInt(k.getColumnIndex("punt")) == -1)){
+                        ContentValues valuesToStore = new ContentValues();
+                        valuesToStore.put("punt", Integer.valueOf(fallos));
+                        userHelper.setPoints(settings.getString("usuario", "default"), valuesToStore);
+                        userHelper.close();
+                    }
                 }
             }
             else {
                 girarImagen.flipImage(getResources().getDrawable(R.drawable.estrella),cartas.get(carta1.first).first);
                 girarImagen.flipImage(getResources().getDrawable(R.drawable.estrella), cartas.get(carta2.first).first);
             }
-            ++fallos;
-            fallosPant.setText("" + fallos);
             carta1 = Pair.create(-1,-1);
             carta2 = Pair.create(-1,-1);
             cartasLevantadas = 0;

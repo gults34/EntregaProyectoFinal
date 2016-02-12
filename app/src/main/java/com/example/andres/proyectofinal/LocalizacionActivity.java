@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.*;
 import android.location.GpsStatus.Listener;
@@ -27,13 +29,14 @@ public class LocalizacionActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_localizacion);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Mi localización");
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         l = null;
-        setContentView(R.layout.activity_localizacion);
 
         lm = (LocationManager) this
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -100,8 +103,13 @@ public class LocalizacionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                Intent inten = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(inten);
+                SharedPreferences settings = getSharedPreferences("prefs", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("puntuacion", -1);
+                editor.putString("usuario", "");
+                editor.apply();
+                Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(i);
                 finish();
                 return true;
             default:

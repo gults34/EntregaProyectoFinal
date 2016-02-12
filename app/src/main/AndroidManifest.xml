@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/cubo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -25,22 +25,16 @@
         <activity android:name=".UserListActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".CalculadoraActivity" />
-        <activity
-            android:name=".MemoryActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".MusicaActivity" />
         <activity android:name=".MemoryRankingActivity" />
         <activity android:name=".PerfilActivity" />
         <activity android:name=".CambiarContrasenaActivity" />
-
+        <activity android:name=".LocalizacionActivity" />
         <service android:name=".ServiceMediaplayer">
             <intent-filter>
                 <action android:name="BOUNDSERVICE" />
             </intent-filter>
         </service>
-
-        <activity android:name=".LocalizacionActivity" />
-        <activity android:name=".LocalizacionActivity"></activity>
     </application>
 
 </manifest>

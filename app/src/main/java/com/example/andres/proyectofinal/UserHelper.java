@@ -19,7 +19,7 @@ public class UserHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE ="User";
 
     //sentencia global de cracion de la base de datos
-    public static final String USER_TABLE_CREATE = "CREATE TABLE " + USER_TABLE + " (username TEXT PRIMARY KEY UNIQUE, foto TEXT, pass TEXT, punt INTEGER);";
+    public static final String USER_TABLE_CREATE = "CREATE TABLE " + USER_TABLE + " (username TEXT PRIMARY KEY UNIQUE, foto TEXT, pass TEXT, punt INTEGER, noti INTEGER);";
 
 
 
@@ -49,7 +49,7 @@ public class UserHelper extends SQLiteOpenHelper {
 
     public Cursor getUserPunt() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {"username,punt"};
+        String[] columns = {"username,punt,foto"};
         Cursor c = db.query(
                 USER_TABLE,                             // The table to query
                 columns,                                // The columns to return
@@ -81,6 +81,22 @@ public class UserHelper extends SQLiteOpenHelper {
     public Cursor getPassByUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {"pass"};
+        String[] where = {username};
+        Cursor c = db.query(
+                USER_TABLE,                                 // The table to query
+                columns,                                    // The columns to return
+                "username=?",                               // The columns for the WHERE clause
+                where,                                      // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                        // The sort order
+        );
+        return c;
+    }
+
+    public Cursor getNotByUsername(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {"noti"};
         String[] where = {username};
         Cursor c = db.query(
                 USER_TABLE,                                 // The table to query
@@ -162,6 +178,18 @@ public class UserHelper extends SQLiteOpenHelper {
         );
         return p;
     }
+    public long setNotificationMode(String username, ContentValues contentValues) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] where = {username};
+        long p = db.update(
+                USER_TABLE,                                   // The table to query
+                contentValues,
+                "Username=?",                               // The columns for the WHERE clause
+                where                                       // The values for the WHERE clause
+        );
+        return p;
+    }
+
 
     public long addFoto(String username, ContentValues contentValues) {
         SQLiteDatabase db = this.getWritableDatabase();
