@@ -24,7 +24,7 @@ public class PrincipalActivity extends AppCompatActivity {
         setTitle("Menú Principal");
 
         layout = (View) findViewById(R.id.layout);
-        
+
     }
 
     public void pantallaCalculadora (View view) {
